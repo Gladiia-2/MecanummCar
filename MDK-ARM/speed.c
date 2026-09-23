@@ -28,17 +28,13 @@ extern float vx,vy,vw,k;
 
 
 
-void Task_Control(void const *argument)
+void Task_Control(void const *argument)  
 {
 	
 	while(1)
 	{	
-		//for(i=0;i<4;i++)
 		
-		
-			
-	
-		
+			//PID 输出 >=0 时正转
 			if(speed[0].out>= 0)
 			{
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8,GPIO_PIN_RESET);
@@ -51,6 +47,7 @@ void Task_Control(void const *argument)
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_9,GPIO_PIN_RESET);
 				g_pwm[0]=-speed[0].out;
 			}
+			
 			
 			if(speed[1].out>= 0)
 			{
@@ -65,6 +62,7 @@ void Task_Control(void const *argument)
 				g_pwm[1]=-speed[1].out;
 			}
 			
+		
 			if(speed[2].out>= 0)
 			{
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
@@ -78,6 +76,7 @@ void Task_Control(void const *argument)
 				g_pwm[2]=-speed[2].out;
 			}
 			
+		
 			if(speed[3].out>= 0)
 			{
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
@@ -92,12 +91,11 @@ void Task_Control(void const *argument)
 			}
 		
 		 
-			send[0]= g_speed_rpm[0];
-			send[1]= g_setspeed[0];
-			VOFA_JustFloat_Send(send,2);
+			
 		
 		
 		
+			//PWM 值写进 TIM5通道
 			__HAL_TIM_SetCompare(&htim5,TIM_CHANNEL_1,g_pwm[0]);
 			__HAL_TIM_SetCompare(&htim5,TIM_CHANNEL_2,g_pwm[1]);
 			__HAL_TIM_SetCompare(&htim5,TIM_CHANNEL_3,g_pwm[2]);
